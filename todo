@@ -1,0 +1,13 @@
+UI Library: https://sveltematerialui.com/demo/icon-button/
+UI Library: https://madewithsvelte.com/svelte-mui
+UI Library (Preferred): https://svelte-mui.vercel.app/snackbar
+
+[FEATURES]
+
+- Save blog posts
+- Save as drafts
+- Publish posts
+- Connect posts to hashnote account
+
+Hashnode API: https://api.hashnode.com/#
+Markdown Editor Package: https://www.npmjs.com/package/rich-markdown-editor

@@ -1,0 +1,20 @@
+<script type="ts">
+	import { Nav, NavItem, NavLink } from 'sveltestrap';
+</script>
+
+<nav class="nav-section full-screen bg-black">
+	<Nav tabs>
+		<NavItem>
+			<NavLink href="/dashboard" active>Dashboard</NavLink>
+		</NavItem>
+		<NavItem>
+			<NavLink href="/dashboard/posts">Posts</NavLink>
+		</NavItem>
+		<NavItem>
+			<NavLink href="#">Projects</NavLink>
+		</NavItem>
+		<NavItem>
+			<NavLink href="#">Contact Messages</NavLink>
+		</NavItem>
+	</Nav>
+</nav>
