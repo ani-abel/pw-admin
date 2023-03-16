@@ -10,7 +10,6 @@
 		Icon,
 		CardBody,
 		CardFooter,
-		CardHeader,
 		DropdownItem,
 		DropdownMenu,
 		Dropdown,
@@ -21,19 +20,15 @@
 <Row class="pt-50">
 	<Col xs="12" sm={{ offset: 1, size: 10 }} md={{ offset: 1, size: 10 }}>
 		<Card class="bg-black">
-			<CardHeader>
-				<div class="full-screen text-right p-10">
-					<a href="/dashboard/posts/add" class="btn btn-danger">Add</a>
-				</div>
-			</CardHeader>
 			<CardBody>
 				<Table dark>
 					<thead>
 						<tr>
 							<th>#</th>
-							<th>Title</th>
-							<th>Tags</th>
-							<th>Series</th>
+							<th>Sender</th>
+							<th>Message</th>
+							<th>Email</th>
+							<th>Phone</th>
 							<th>Date Written</th>
 							<th />
 						</tr>
@@ -41,9 +36,13 @@
 					<tbody>
 						<tr>
 							<td scope="row">1</td>
-							<td>Mark</td>
-							<td>Tech, Bio, Audi</td>
-							<td>@mdo</td>
+							<td>Mark Tyler</td>
+							<td
+								>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quod voluptatem aliquam
+								ex, similique optio qui.</td
+							>
+							<td>tim@gmail.com</td>
+							<td>01838899</td>
 							<td>12/12/2023</td>
 							<td>
 								<Dropdown autoClose={true}>
@@ -51,28 +50,7 @@
 										<Icon name="three-dots-vertical" />
 									</DropdownToggle>
 									<DropdownMenu>
-										<DropdownItem href="/dashboard/posts/preview/o1o00">Preview</DropdownItem>
-										<DropdownItem href="/dashboard/posts/edit/o1o00">Edit</DropdownItem>
-										<DropdownItem>Publish</DropdownItem>
-									</DropdownMenu>
-								</Dropdown>
-							</td>
-						</tr>
-						<tr>
-							<th scope="row">1</th>
-							<td>Mark</td>
-							<td>Tech, Bio, Audi</td>
-							<td>@mdo</td>
-							<td>12/12/2023</td>
-							<td>
-								<Dropdown autoClose={true}>
-									<DropdownToggle>
-										<Icon name="three-dots-vertical" />
-									</DropdownToggle>
-									<DropdownMenu>
-										<DropdownItem href="/dashboard/posts/preview/o1o00">Preview</DropdownItem>
-										<DropdownItem href="/dashboard/posts/edit/o1o00">Edit</DropdownItem>
-										<DropdownItem>Publish</DropdownItem>
+										<DropdownItem>Mark as read</DropdownItem>
 									</DropdownMenu>
 								</Dropdown>
 							</td>

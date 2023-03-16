@@ -17,7 +17,7 @@
 			<NavLink href="/dashboard/projects">Projects</NavLink>
 		</NavItem>
 		<NavItem>
-			<NavLink href="#">Contact Messages</NavLink>
+			<NavLink href="/dashboard/contact-messages">Contact Messages</NavLink>
 		</NavItem>
 	</Nav>
 </nav>
