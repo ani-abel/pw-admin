@@ -40,6 +40,7 @@
 					</thead>
 					<tbody>
 						<tr>
+							<!-- svelte-ignore a11y-misplaced-scope -->
 							<td scope="row">1</td>
 							<td>Mark</td>
 							<td>Tech, Bio, Audi</td>

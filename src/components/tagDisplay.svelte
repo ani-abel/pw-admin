@@ -13,7 +13,7 @@
 
 	const dispatch = createEventDispatcher();
 
-	const selectTag = (event: any) => {
+	const selectTag = (event: any): void => {
 		const element = event.target;
 		const attr = element.getAttribute('data-value');
 		if (attr) {
