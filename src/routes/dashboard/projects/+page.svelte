@@ -23,7 +23,7 @@
 		<Card class="bg-black">
 			<CardHeader>
 				<div class="full-screen text-right p-10">
-					<a href="/dashboard/posts/add" class="btn btn-danger">Add</a>
+					<a href="/dashboard/projects/add" class="btn btn-danger">Add</a>
 				</div>
 			</CardHeader>
 			<CardBody>
@@ -31,9 +31,8 @@
 					<thead>
 						<tr>
 							<th>#</th>
-							<th>Title</th>
-							<th>Tags</th>
-							<th>Series</th>
+							<th>Name</th>
+							<th>Description</th>
 							<th>Date Written</th>
 							<th />
 						</tr>
@@ -43,7 +42,6 @@
 							<th scope="row">1</th>
 							<td>Mark</td>
 							<td>Tech, Bio, Audi</td>
-							<td>@mdo</td>
 							<td>12/12/2023</td>
 							<td>
 								<Dropdown autoClose={true}>
@@ -51,28 +49,9 @@
 										<Icon name="three-dots-vertical" />
 									</DropdownToggle>
 									<DropdownMenu>
-										<DropdownItem href="/dashboard/posts/preview/o1o00">Preview</DropdownItem>
-										<DropdownItem href="/dashboard/posts/edit/o1o00">Edit</DropdownItem>
-										<DropdownItem>Publish</DropdownItem>
-									</DropdownMenu>
-								</Dropdown>
-							</td>
-						</tr>
-						<tr>
-							<th scope="row">1</th>
-							<td>Mark</td>
-							<td>Tech, Bio, Audi</td>
-							<td>@mdo</td>
-							<td>12/12/2023</td>
-							<td>
-								<Dropdown autoClose={true}>
-									<DropdownToggle>
-										<Icon name="three-dots-vertical" />
-									</DropdownToggle>
-									<DropdownMenu>
-										<DropdownItem href="/dashboard/posts/preview/o1o00">Preview</DropdownItem>
-										<DropdownItem href="/dashboard/posts/edit/o1o00">Edit</DropdownItem>
-										<DropdownItem>Publish</DropdownItem>
+										<DropdownItem href="/dashboard/projects/edit/o1o00">Edit</DropdownItem>
+										<DropdownItem>Delete</DropdownItem>
+										<DropdownItem>Activate</DropdownItem>
 									</DropdownMenu>
 								</Dropdown>
 							</td>

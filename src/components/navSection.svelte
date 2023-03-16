@@ -11,7 +11,10 @@
 			<NavLink href="/dashboard/posts">Posts</NavLink>
 		</NavItem>
 		<NavItem>
-			<NavLink href="#">Projects</NavLink>
+			<NavLink href="/dashboard/series">Series</NavLink>
+		</NavItem>
+		<NavItem>
+			<NavLink href="/dashboard/projects">Projects</NavLink>
 		</NavItem>
 		<NavItem>
 			<NavLink href="#">Contact Messages</NavLink>

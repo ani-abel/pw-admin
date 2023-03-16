@@ -12,4 +12,4 @@
 	const plugins = [gfm(), highlight(), mediumZoom(), math(), pluginBreaks()];
 </script>
 
-<Viewer {value} {plugins} />
+<Viewer {plugins} {value} />

@@ -10,7 +10,8 @@
 		FormGroup,
 		Input,
 		Button,
-		Form
+		Form,
+		CardHeader
 	} from 'sveltestrap';
 	import MarkdownEditor from '../../../../components/markdownEditor.svelte';
 	import TagDisplay from '../../../../components/tagDisplay.svelte';
@@ -49,6 +50,9 @@
 <Row class="pt-50">
 	<Col xs="12" sm="12" md={{ offset: 2, size: 8 }}>
 		<Card class="bg-black">
+			<CardHeader>
+				<h2 class="text-white">Write Article 🖍</h2>
+			</CardHeader>
 			<CardBody>
 				<Form method="POST" on:submit={handleSubmit}>
 					<FormGroup class="text-white">
