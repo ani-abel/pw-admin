@@ -190,3 +190,8 @@ video {
     width: 100%;
     height: 300px;
 }
+
+button:disabled {
+    background: #ddd !important;
+    cursor: not-allowed;
+}

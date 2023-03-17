@@ -1,12 +1,17 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
-	import { Nav, NavItem, NavLink } from 'sveltestrap';
+	import { createEventDispatcher, onMount } from 'svelte';
+	import { Nav, NavItem, Icon, NavLink } from 'sveltestrap';
 
+	const dispatch = createEventDispatcher();
 	let activeRoute = '';
 
 	onMount(() => {
 		activeRoute = window.location.pathname;
 	});
+
+	const logout = () => {
+		dispatch('logout', true);
+	};
 </script>
 
 <nav class="nav-section full-screen bg-black">
@@ -17,7 +22,7 @@
 				on:click={() => (activeRoute = '/dashboard')}
 				class={activeRoute === '/dashboard' ? 'active' : ''}
 			>
-				Dashboard
+				<Icon name="controller" /> Dashboard
 			</NavLink>
 		</NavItem>
 		<NavItem>
@@ -25,7 +30,7 @@
 				on:click={() => (activeRoute = '/dashboard/posts')}
 				class={activeRoute === '/dashboard/posts' ? 'active' : ''}
 				href="/dashboard/posts"
-				>Posts
+				><Icon name="pencil-fill" /> Posts
 			</NavLink>
 		</NavItem>
 		<NavItem>
@@ -33,7 +38,7 @@
 				class={activeRoute === '/dashboard/series' ? 'active' : ''}
 				on:click={() => (activeRoute = '/dashboard/series')}
 				href="/dashboard/series"
-				>Series
+				><Icon name="journals" /> Series
 			</NavLink>
 		</NavItem>
 		<NavItem>
@@ -41,7 +46,7 @@
 				class={activeRoute === '/dashboard/projects' ? 'active' : ''}
 				on:click={() => (activeRoute = '/dashboard/projects')}
 				href="/dashboard/projects"
-				>Projects
+				><Icon name="gear" /> Projects
 			</NavLink>
 		</NavItem>
 		<NavItem>
@@ -49,8 +54,11 @@
 				on:click={() => (activeRoute = '/dashboard/contact-messages')}
 				class={activeRoute === '/dashboard/contact-messages' ? 'active' : ''}
 				href="/dashboard/contact-messages"
-				>Contact Messages
+				><Icon name="envelope-dash" /> Messages
 			</NavLink>
+		</NavItem>
+		<NavItem>
+			<NavLink on:click={logout}><Icon name="power" /> Logout</NavLink>
 		</NavItem>
 	</Nav>
 </nav>
