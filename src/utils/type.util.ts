@@ -41,7 +41,7 @@ export class AuthResponse {
 
 export class AuthResponseDTO extends BaseResponseTypeDTO<AuthResponse> {}
 
-export class ErrorMetaType {
+export class NotificationMetaType {
 	message!: string;
 	color!: string;
 	header!: string;

@@ -17,7 +17,7 @@
 		validateFormData
 	} from '../../../../utils/function.util';
 	import type {
-		ErrorMetaType,
+		NotificationMetaType,
 		FormDataType,
 		SeriesItemResponseDTO
 	} from '../../../../utils/type.util';
@@ -25,7 +25,7 @@
 	import { API_BASE_URL } from '../../../../utils/const.util';
 
 	let isFormValid = false;
-	let error: ErrorMetaType;
+	let error: NotificationMetaType;
 
 	const formData: FormDataType = {
 		name: { value: null, required: true }

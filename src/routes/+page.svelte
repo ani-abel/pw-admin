@@ -4,10 +4,10 @@
 	import { extractAxiosError, httpPost, validateFormData } from '../utils/function.util';
 	import { API_BASE_URL } from '../utils/const.util';
 	import ToastNotification from '../components/toastNotification.svelte';
-	import type { ErrorMetaType, AuthResponseDTO, FormDataType } from '../utils/type.util';
+	import type { NotificationMetaType, AuthResponseDTO, FormDataType } from '../utils/type.util';
 
 	let isFormValid = false;
-	let error: ErrorMetaType;
+	let error: NotificationMetaType;
 
 	const formData: FormDataType = {
 		email: { value: null, required: true },
