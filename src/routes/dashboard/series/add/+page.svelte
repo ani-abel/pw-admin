@@ -26,6 +26,7 @@
 
 	let isFormValid = false;
 	let error: NotificationMetaType;
+	let success: NotificationMetaType;
 
 	const formData: FormDataType = {
 		name: { value: null, required: true }
@@ -43,6 +44,11 @@
 			);
 			if (response.success) {
 				formData.name.value = null;
+				success = {
+					color: 'success',
+					header: 'Info',
+					message: response.message
+				};
 			}
 		} catch (ex) {
 			const axiosError = extractAxiosError(ex, 'danger', 'Error Occurred');
@@ -63,6 +69,19 @@
 			error.message = '';
 			error.color = '';
 			error.header = '';
+		}}
+	/>
+{/if}
+
+{#if success && success.message !== ''}
+	<ToastNotification
+		color={success.color}
+		message={success.message}
+		header={success.header}
+		on:closeToast={() => {
+			success.message = '';
+			success.color = '';
+			success.header = '';
 		}}
 	/>
 {/if}
