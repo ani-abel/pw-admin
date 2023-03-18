@@ -14,7 +14,7 @@
 		password: { value: null, required: true }
 	};
 
-	const setCredentialsInLocalStorage = (data: any) => {
+	const setCredentialsToLocalStorage = (data: any) => {
 		localStorage.setItem('token', data.token);
 		localStorage.setItem('userRecord', JSON.stringify(data));
 	};
@@ -28,10 +28,10 @@
 				password: formData.password.value
 			};
 			const response = await httpPost<AuthResponseDTO, any>(url, reqBody);
-			setCredentialsInLocalStorage(response.data);
+			setCredentialsToLocalStorage(response.data);
 			goto('/dashboard');
 		} catch (ex) {
-			const axiosError = extractAxiosError(ex, 'danger', 'Error occurred');
+			const axiosError = extractAxiosError(ex, 'danger', 'Error Occurred');
 			if (axiosError) {
 				error = axiosError;
 			}
