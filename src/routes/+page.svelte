@@ -20,8 +20,8 @@
 	};
 
 	const onSubmit = async (e: Event) => {
+		e.preventDefault();
 		try {
-			e.preventDefault();
 			const url = `${API_BASE_URL}/auth/login`;
 			const reqBody = {
 				email: formData.email.value,
@@ -51,8 +51,8 @@
 				error.color = '';
 				error.header = '';
 			}}
-		/>{/if}
-
+		/>
+	{/if}
 	<Row class="pt-50">
 		<h1 class="text-center p-20 text-white">Login</h1>
 		<Col xs="12" sm={{ offset: 1, size: 10 }} md={{ offset: 4, size: 4 }}>

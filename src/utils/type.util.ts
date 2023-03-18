@@ -46,3 +46,24 @@ export class ErrorMetaType {
 	color!: string;
 	header!: string;
 }
+
+export class PaginationResponseType {
+	currentPage!: number;
+	totalPages!: number;
+	pageSize!: number;
+	totalCount!: number;
+	hasPrevious!: boolean;
+	hasNext!: boolean;
+}
+
+export class Series extends Base {
+	name!: string;
+
+	// postsInThisSeries: Post[];
+}
+
+export class SeriesItemResponseDTO extends BaseResponseTypeDTO<Series> {}
+
+export class SeriesResponseDTO extends BaseResponseTypeDTO<Series> {
+	paginationControl?: PaginationResponseType;
+}

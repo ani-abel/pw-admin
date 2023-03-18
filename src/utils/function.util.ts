@@ -52,7 +52,11 @@ export const httpDelete = async <U>(url: string, headers = {}): Promise<U> => {
 	return response.data as U;
 };
 
-export const extractAxiosError = (error: any, color: string, header: string): ErrorMetaType => {
+export const extractAxiosError = (
+	error: any,
+	color: string,
+	header: string
+): ErrorMetaType | undefined => {
 	if (typeof error !== 'undefined' && error instanceof AxiosError && error.response) {
 		return {
 			color,
@@ -61,3 +65,5 @@ export const extractAxiosError = (error: any, color: string, header: string): Er
 		};
 	}
 };
+
+export const extractDataFromLocalStorage = (key: string) => localStorage.getItem(key);
