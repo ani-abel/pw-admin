@@ -8,6 +8,7 @@ export const convertFilesToBase64Strings = async (event: Event): Promise<string[
 		const filePath: string = await new Promise((resolve, reject) => {
 			const fileReader = new FileReader();
 			fileReader.onload = () => resolve(fileReader.result as string);
+			fileReader.onerror = (error) => reject(error);
 			fileReader.readAsDataURL(file);
 		});
 		base64Strings.push(filePath);
@@ -73,9 +74,8 @@ export const formatDate = (dateString: string, type: 'TIME' | 'DATE'): string =>
 	if (type === 'DATE') {
 		return date.toDateString();
 	}
-	if (type === 'TIME') {
-		return date.toTimeString();
-	}
+	// Default to "TIME"
+	return date.toTimeString();
 };
 
 export const fillArray = (length = 1): number[] => {
