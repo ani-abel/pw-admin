@@ -67,3 +67,21 @@ export const extractAxiosError = (
 };
 
 export const extractDataFromLocalStorage = (key: string) => localStorage.getItem(key);
+
+export const formatDate = (dateString: string, type: 'TIME' | 'DATE'): string => {
+	const date = new Date(dateString);
+	if (type === 'DATE') {
+		return date.toDateString();
+	}
+	if (type === 'TIME') {
+		return date.toTimeString();
+	}
+};
+
+export const fillArray = (length = 1): number[] => {
+	const items = [];
+	for (let i = 0; i < length; i++) {
+		items.push(i + 1);
+	}
+	return items;
+};

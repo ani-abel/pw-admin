@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { onMount } from 'svelte';
 	import {
 		Table,
 		Row,
@@ -16,6 +17,40 @@
 		Dropdown,
 		DropdownToggle
 	} from 'sveltestrap';
+	import { fillArray, formatDate, httpDelete, httpGet } from '../../../utils/function.util';
+	import { API_BASE_URL } from '../../../utils/const.util';
+	import type { BaseResponseTypeDTO } from 'src/utils/type.util';
+
+	export let data;
+	let series: any[] = [];
+	let paginationControl: any;
+	let fullPaginationList: any;
+	let selectedPage = 1;
+
+	onMount(() => {
+		if (data) {
+			paginationControl = (data as any)?.paginationControl;
+			fullPaginationList = fillArray(paginationControl.totalPages);
+			series = (data as any).data;
+		}
+	});
+
+	const navigate = async (e: Event, page: number) => {
+		e.preventDefault();
+		const response = await httpGet<any>(`${API_BASE_URL}/series?pageNumber=${page}&pageSize=10`);
+		series = response.data;
+		selectedPage = page;
+	};
+
+	const deleteSeries = async (e: Event, seriesId: string) => {
+		e.preventDefault();
+		const response = await httpDelete<BaseResponseTypeDTO<any>>(
+			`${API_BASE_URL}/series/${seriesId}`
+		);
+		if (response.success) {
+			window.location.reload();
+		}
+	};
 </script>
 
 <Row class="pt-50">
@@ -33,50 +68,86 @@
 							<th>#</th>
 							<th>Name</th>
 							<th>Articles</th>
-							<th>Date Written</th>
+							<th>Date Created</th>
 							<th />
 						</tr>
 					</thead>
 					<tbody>
-						<tr>
-							<th scope="row">1</th>
-							<td>Mark</td>
-							<td>Tech, Bio, Audi</td>
-							<td>12/12/2023</td>
-							<td>
-								<Dropdown autoClose={true}>
-									<DropdownToggle>
-										<Icon name="three-dots-vertical" />
-									</DropdownToggle>
-									<DropdownMenu>
-										<DropdownItem href="/dashboard/series/edit/o1o00">Edit</DropdownItem>
-										<DropdownItem>Delete</DropdownItem>
-									</DropdownMenu>
-								</Dropdown>
-							</td>
-						</tr>
+						{#each series as item, index}
+							<tr>
+								<th scope="row">{index + 1}</th>
+								<td>{item.name}</td>
+								{#if item.postsInThisSeries?.length > 0}
+									<td>
+										<ul>
+											{#each item.postsInThisSeries as post}
+												<li>{post.title}</li>
+											{/each}
+										</ul>
+									</td>
+								{:else}
+									<td>None</td>
+								{/if}
+								<td>{formatDate(item.dateCreated, 'DATE')}</td>
+								<td>
+									<Dropdown autoClose={true}>
+										<DropdownToggle>
+											<Icon name="three-dots-vertical" />
+										</DropdownToggle>
+										<DropdownMenu>
+											<DropdownItem href="/dashboard/series/edit/{item.id}">Edit</DropdownItem>
+											<DropdownItem
+												class="cursor-pointer"
+												on:click={(e) => deleteSeries(e, item.id)}>Delete</DropdownItem
+											>
+										</DropdownMenu>
+									</Dropdown>
+								</td>
+							</tr>
+						{/each}
 					</tbody>
 				</Table>
 			</CardBody>
-			<CardFooter>
-				<Pagination class="justify-content-center" size="md">
-					<PaginationItem>
-						<PaginationLink first href="#" />
-					</PaginationItem>
-					<PaginationItem>
-						<PaginationLink previous href="#" />
-					</PaginationItem>
-					<PaginationItem>
-						<PaginationLink href="#">1</PaginationLink>
-					</PaginationItem>
-					<PaginationItem>
-						<PaginationLink next href="#" />
-					</PaginationItem>
-					<PaginationItem>
-						<PaginationLink last href="#" />
-					</PaginationItem>
-				</Pagination>
-			</CardFooter>
+			{#if paginationControl}
+				<CardFooter>
+					<Pagination class="justify-content-center" size="md">
+						<PaginationItem>
+							<PaginationLink first on:click={(e) => navigate(e, fullPaginationList[0])} />
+						</PaginationItem>
+						<PaginationItem>
+							<PaginationLink
+								previous
+								on:click={(e) => navigate(e, selectedPage <= 1 ? 1 : selectedPage - 1)}
+							/>
+						</PaginationItem>
+						{#each fullPaginationList as pageNumber}
+							<PaginationItem>
+								<PaginationLink on:click={(e) => navigate(e, pageNumber)}
+									>{pageNumber}</PaginationLink
+								>
+							</PaginationItem>
+						{/each}
+						<PaginationItem>
+							<PaginationLink
+								next
+								on:click={(e) =>
+									navigate(
+										e,
+										selectedPage >= fullPaginationList[fullPaginationList.length - 1]
+											? fullPaginationList[fullPaginationList.length - 1]
+											: selectedPage + 1
+									)}
+							/>
+						</PaginationItem>
+						<PaginationItem>
+							<PaginationLink
+								last
+								on:click={(e) => navigate(e, fullPaginationList[fullPaginationList.length - 1])}
+							/>
+						</PaginationItem>
+					</Pagination>
+				</CardFooter>
+			{/if}
 		</Card>
 	</Col>
 </Row>

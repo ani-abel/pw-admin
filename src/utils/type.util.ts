@@ -4,6 +4,12 @@ export type FormDataType = {
 	[key: string]: { value: any; required: boolean };
 };
 
+export class ErrorMetaType {
+	color!: string;
+	header!: string;
+	message!: string;
+}
+
 export class BaseResponseTypeDTO<T> {
 	success!: boolean;
 	code!: number;
