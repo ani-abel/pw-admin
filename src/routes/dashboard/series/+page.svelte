@@ -21,7 +21,7 @@
 	import { API_BASE_URL } from '../../../utils/const.util';
 	import type { BaseResponseTypeDTO } from 'src/utils/type.util';
 
-	export let data;
+	export let data: any;
 	let series: any[] = [];
 	let paginationControl: any;
 	let fullPaginationList: any;

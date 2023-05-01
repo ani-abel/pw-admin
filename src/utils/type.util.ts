@@ -1,4 +1,4 @@
-import type { AppRole } from './const.util';
+import type { AppRole, RequestStatus } from './const.util';
 
 export type FormDataType = {
 	[key: string]: { value: any; required: boolean };
@@ -72,4 +72,9 @@ export class SeriesItemResponseDTO extends BaseResponseTypeDTO<Series> {}
 
 export class SeriesResponseDTO extends BaseResponseTypeDTO<Series> {
 	paginationControl?: PaginationResponseType;
+}
+
+export class FileResponseDTO<T> {
+	status!: RequestStatus;
+	data!: T;
 }

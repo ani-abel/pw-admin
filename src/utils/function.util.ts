@@ -1,5 +1,6 @@
 import axios, { AxiosError, type AxiosResponse } from 'axios';
-import type { ErrorMetaType, FormDataType } from './type.util';
+import type { ErrorMetaType, FileResponseDTO, FormDataType } from './type.util';
+import { API_BASE_URL } from './const.util';
 
 export const convertFilesToBase64Strings = async (event: Event): Promise<string[]> => {
 	const base64Strings: string[] = [];
@@ -84,4 +85,18 @@ export const fillArray = (length = 1): number[] => {
 		items.push(i + 1);
 	}
 	return items;
+};
+
+export const uploadFiles = async (files: File[]): Promise<FileResponseDTO<string[]>> => {
+	const formData = new FormData();
+	for (const file of files) {
+		formData.append('files[]', file);
+	}
+	return await httpPost<FileResponseDTO<string[]>, FormData>(
+		`${API_BASE_URL}/upload-files`,
+		formData,
+		{
+			'Content-Type': 'multipart/form-data'
+		}
+	);
 };

@@ -159,6 +159,10 @@ body {
     width: 100%;
 }
 
+.greyedOut {
+    color: #0a52bb !important;
+}
+
 .nav-section {
     padding: 30px 20px;
 }

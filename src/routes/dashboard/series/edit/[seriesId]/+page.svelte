@@ -42,7 +42,6 @@
 	const handleSubmit = async (event: any) => {
 		event.preventDefault();
 		try {
-			console.log({ formData });
 			const token = extractDataFromLocalStorage('token');
 			const response = await httpPatch<BaseResponseTypeDTO<any>, any>(
 				`${API_BASE_URL}/series`,
