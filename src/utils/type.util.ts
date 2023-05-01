@@ -78,3 +78,5 @@ export class FileResponseDTO<T> {
 	status!: RequestStatus;
 	data!: T;
 }
+
+export type NavigateFunction = (e: MouseEvent, page: number) => void;

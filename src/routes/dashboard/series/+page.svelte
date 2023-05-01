@@ -4,22 +4,19 @@
 		Table,
 		Row,
 		Col,
-		Pagination,
-		PaginationItem,
-		PaginationLink,
 		Card,
 		Icon,
 		CardBody,
-		CardFooter,
 		CardHeader,
 		DropdownItem,
 		DropdownMenu,
 		Dropdown,
 		DropdownToggle
 	} from 'sveltestrap';
+	import PaginationFullControl from '../../../components/paginationFullControl.svelte';
 	import { fillArray, formatDate, httpDelete, httpGet } from '../../../utils/function.util';
 	import { API_BASE_URL } from '../../../utils/const.util';
-	import type { BaseResponseTypeDTO } from 'src/utils/type.util';
+	import type { BaseResponseTypeDTO } from '../../../utils/type.util';
 
 	export let data: any;
 	let series: any[] = [];
@@ -109,44 +106,7 @@
 				</Table>
 			</CardBody>
 			{#if paginationControl}
-				<CardFooter>
-					<Pagination class="justify-content-center" size="md">
-						<PaginationItem>
-							<PaginationLink first on:click={(e) => navigate(e, fullPaginationList[0])} />
-						</PaginationItem>
-						<PaginationItem>
-							<PaginationLink
-								previous
-								on:click={(e) => navigate(e, selectedPage <= 1 ? 1 : selectedPage - 1)}
-							/>
-						</PaginationItem>
-						{#each fullPaginationList as pageNumber}
-							<PaginationItem>
-								<PaginationLink on:click={(e) => navigate(e, pageNumber)}
-									>{pageNumber}</PaginationLink
-								>
-							</PaginationItem>
-						{/each}
-						<PaginationItem>
-							<PaginationLink
-								next
-								on:click={(e) =>
-									navigate(
-										e,
-										selectedPage >= fullPaginationList[fullPaginationList.length - 1]
-											? fullPaginationList[fullPaginationList.length - 1]
-											: selectedPage + 1
-									)}
-							/>
-						</PaginationItem>
-						<PaginationItem>
-							<PaginationLink
-								last
-								on:click={(e) => navigate(e, fullPaginationList[fullPaginationList.length - 1])}
-							/>
-						</PaginationItem>
-					</Pagination>
-				</CardFooter>
+				<PaginationFullControl {paginationControl} {selectedPage} {navigate} />
 			{/if}
 		</Card>
 	</Col>

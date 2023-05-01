@@ -1,21 +1,45 @@
 <script lang="ts">
+	import PaginationFullControl from '../../../components/paginationFullControl.svelte';
+	import { API_BASE_URL } from '../../../utils/const.util';
+	import { fillArray, formatDate, httpGet } from '../../../utils/function.util';
+	import { onMount } from 'svelte';
 	import {
 		Table,
 		Row,
 		Col,
-		Pagination,
-		PaginationItem,
-		PaginationLink,
 		Card,
 		Icon,
 		CardBody,
-		CardFooter,
 		CardHeader,
 		DropdownItem,
 		DropdownMenu,
 		Dropdown,
 		DropdownToggle
 	} from 'sveltestrap';
+
+	export let data: any;
+	let posts: any[] = [];
+	let paginationControl: any;
+	let fullPaginationList: any;
+	let selectedPage = 1;
+
+	onMount(() => {
+		if (data) {
+			paginationControl = (data as any)?.paginationControl;
+			fullPaginationList = fillArray(paginationControl.totalPages);
+			posts = (data as any).data;
+		}
+	});
+
+	const navigate = async (e: Event, page: number) => {
+		e.preventDefault();
+		const response = await httpGet<any>(`${API_BASE_URL}/post?pageNumber=${page}&pageSize=10`);
+		posts = response.data;
+		selectedPage = page;
+	};
+
+	const findTags = (post: any) =>
+		(post.tagsForThisPost as any[]).map(({ tag }) => tag.name).join(', ');
 </script>
 
 <Row class="pt-50">
@@ -39,67 +63,43 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr>
-							<!-- svelte-ignore a11y-misplaced-scope -->
-							<td scope="row">1</td>
-							<td>Mark</td>
-							<td>Tech, Bio, Audi</td>
-							<td>@mdo</td>
-							<td>12/12/2023</td>
-							<td>
-								<Dropdown autoClose={true}>
-									<DropdownToggle>
-										<Icon name="three-dots-vertical" />
-									</DropdownToggle>
-									<DropdownMenu>
-										<DropdownItem href="/dashboard/posts/preview/o1o00">Preview</DropdownItem>
-										<DropdownItem href="/dashboard/posts/edit/o1o00">Edit</DropdownItem>
-										<DropdownItem>Publish</DropdownItem>
-									</DropdownMenu>
-								</Dropdown>
-							</td>
-						</tr>
-						<tr>
-							<th scope="row">1</th>
-							<td>Mark</td>
-							<td>Tech, Bio, Audi</td>
-							<td>@mdo</td>
-							<td>12/12/2023</td>
-							<td>
-								<Dropdown autoClose={true}>
-									<DropdownToggle>
-										<Icon name="three-dots-vertical" />
-									</DropdownToggle>
-									<DropdownMenu>
-										<DropdownItem href="/dashboard/posts/preview/o1o00">Preview</DropdownItem>
-										<DropdownItem href="/dashboard/posts/edit/o1o00">Edit</DropdownItem>
-										<DropdownItem>Publish</DropdownItem>
-									</DropdownMenu>
-								</Dropdown>
-							</td>
-						</tr>
+						{#each posts as post, index}
+							<tr>
+								<!-- svelte-ignore a11y-misplaced-scope -->
+								<td scope="row">{index + 1}</td>
+								<td>{post.title}</td>
+								<td>{findTags(post)}</td>
+								{#if post.series}
+									<td>
+										<a href="/dashboard/series/edit/${post.series.id}">
+											{post.series.name}
+										</a>
+									</td>
+								{:else}
+									<td>None</td>
+								{/if}
+								<td>{formatDate(post.dateCreated, 'DATE')}</td>
+								<td>
+									<Dropdown autoClose={true}>
+										<DropdownToggle>
+											<Icon name="three-dots-vertical" />
+										</DropdownToggle>
+										<DropdownMenu>
+											<DropdownItem href="/dashboard/posts/preview/{post.id}">Preview</DropdownItem>
+											<DropdownItem href="/dashboard/posts/edit/{post.id}">Edit</DropdownItem>
+											<DropdownItem>Publish</DropdownItem>
+										</DropdownMenu>
+									</Dropdown>
+								</td>
+							</tr>
+						{/each}
 					</tbody>
 				</Table>
 			</CardBody>
-			<CardFooter>
-				<Pagination class="justify-content-center" size="md">
-					<PaginationItem>
-						<PaginationLink first href="#" />
-					</PaginationItem>
-					<PaginationItem>
-						<PaginationLink previous href="#" />
-					</PaginationItem>
-					<PaginationItem>
-						<PaginationLink href="#">1</PaginationLink>
-					</PaginationItem>
-					<PaginationItem>
-						<PaginationLink next href="#" />
-					</PaginationItem>
-					<PaginationItem>
-						<PaginationLink last href="#" />
-					</PaginationItem>
-				</Pagination>
-			</CardFooter>
+
+			{#if paginationControl}
+				<PaginationFullControl {paginationControl} {selectedPage} {navigate} />
+			{/if}
 		</Card>
 	</Col>
 </Row>

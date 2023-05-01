@@ -1,4 +1,4 @@
-import type { BaseResponseTypeDTO, Series } from 'src/utils/type.util';
+import type { BaseResponseTypeDTO, Series } from '../../../utils/type.util';
 import { API_BASE_URL } from '../../../utils/const.util';
 import { httpGet } from '../../../utils/function.util';
 
