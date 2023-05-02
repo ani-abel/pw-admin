@@ -1,4 +1,19 @@
-/* h1, h2, h3, h4, h5, h6, p { color: #fff; } */
+::-webkit-scrollbar{
+    width: 0.5vw;
+    background: #777;
+}
+
+::-webkit-scrollbar-thumb{
+    background: -webkit-linear-gradient(#62d4eb,#00a6ff);
+    background: linear-gradient(#62d4eb, #00a6ff);
+    border-radius: 20px;
+}
+
+::-webkit-scrollbar-thumb:hover{
+   background: -webkit-linear-gradient(transparent,#00c6ff);
+   background: linear-gradient(transparent,#00c6ff); 
+}
+
 
 body {
     overflow-x: hidden;
@@ -185,9 +200,16 @@ body {
 }
 
 .bytemd-preview .markdown-body {
+    color: #000 !important;
     max-width: 800px;
     margin: 0 auto;
     padding: 16px 4%;
+}
+
+.markdown-body img {
+    width: 100% !important;
+    height: 250px !important;
+    object-fit: cover !important;
 }
 
 video {

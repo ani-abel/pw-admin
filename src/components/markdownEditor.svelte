@@ -4,24 +4,41 @@
 	import gfm from '@bytemd/plugin-gfm';
 	import highlight from '@bytemd/plugin-highlight-ssr';
 	import mediumZoom from '@bytemd/plugin-medium-zoom';
+	import pluginFile from 'bytemd-plugin-file-upload';
+	import pluginFileLocales from 'bytemd-plugin-file-upload/locales/zh_Hans.json';
 	import math from '@bytemd/plugin-math-ssr';
 	import pluginBreaks from '@bytemd/plugin-breaks';
 	import 'bytemd/dist/index.css';
+	import { uploadFiles } from '../utils/function.util';
+	import type { MarkdownFileUploaderType } from '../utils/type.util';
 
-	const dispatch = createEventDispatcher();
-	let value = '';
-	const plugins = [gfm(), highlight(), mediumZoom(), math(), pluginBreaks()];
+	const uploadImages = async (files: File[]): Promise<MarkdownFileUploaderType[]> => {
+		const { data: links } = await uploadFiles(files);
+		return links.map((link, index) => ({
+			url: link,
+			alt: files[index].name,
+			title: files[index].name
+		}));
+	};
 
 	const handleChange = (event: any) => {
 		value = event.detail.value;
 		dispatch('markdownContent', value);
 	};
 
-	const uploadImages = (file: File[]) => {
-		console.log({ file });
-		// Handle file upload here
-	};
+	const dispatch = createEventDispatcher();
+	export let value: string = '';
+	const plugins = [
+		gfm(),
+		highlight(),
+		mediumZoom(),
+		math(),
+		pluginBreaks(),
+		pluginFile({ locale: pluginFileLocales, uploadFile: uploadImages })
+	];
 </script>
+
+<div id="editor" />
 
 <Editor
 	placeholder="Write your article 🖍"

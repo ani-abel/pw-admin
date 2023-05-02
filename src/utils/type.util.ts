@@ -80,3 +80,5 @@ export class FileResponseDTO<T> {
 }
 
 export type NavigateFunction = (e: MouseEvent, page: number) => void;
+
+export type MarkdownFileUploaderType = { url: string; alt: string; title: string };

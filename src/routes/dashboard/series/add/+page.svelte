@@ -100,7 +100,7 @@
 							type="text"
 							bind:value={formData.name.value}
 							on:input={() => (isFormValid = validateFormData(formData))}
-							placeholder="Enter name of series"
+							placeholder="Enter series name"
 						/>
 					</FormGroup>
 					<FormGroup>

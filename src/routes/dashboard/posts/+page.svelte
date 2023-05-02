@@ -1,7 +1,15 @@
 <script lang="ts">
+	import type { BaseResponseTypeDTO } from '../../../utils/type.util';
 	import PaginationFullControl from '../../../components/paginationFullControl.svelte';
-	import { API_BASE_URL } from '../../../utils/const.util';
-	import { fillArray, formatDate, httpGet } from '../../../utils/function.util';
+	import { API_BASE_URL, PostStatus } from '../../../utils/const.util';
+	import {
+		extractDataFromLocalStorage,
+		fillArray,
+		formatDate,
+		httpDelete,
+		httpGet,
+		httpPost
+	} from '../../../utils/function.util';
 	import { onMount } from 'svelte';
 	import {
 		Table,
@@ -22,12 +30,14 @@
 	let paginationControl: any;
 	let fullPaginationList: any;
 	let selectedPage = 1;
+	let jwtToken: string | null;
 
 	onMount(() => {
 		if (data) {
 			paginationControl = (data as any)?.paginationControl;
 			fullPaginationList = fillArray(paginationControl.totalPages);
 			posts = (data as any).data;
+			jwtToken = extractDataFromLocalStorage('token');
 		}
 	});
 
@@ -40,6 +50,44 @@
 
 	const findTags = (post: any) =>
 		(post.tagsForThisPost as any[]).map(({ tag }) => tag.name).join(', ');
+
+	const publishArticleLocally = async (
+		e: Event,
+		postId: string,
+		postStatus = PostStatus.PUBLISHED
+	) => {
+		e.preventDefault();
+		const response = await httpPost<BaseResponseTypeDTO<any>, any>(
+			`${API_BASE_URL}/post/publish-post/locally`,
+			{ postId, postStatus },
+			{ Authorization: `Bearer ${jwtToken}` }
+		);
+		if (response.success) {
+			window.location.reload();
+		}
+	};
+
+	const publishArticle = async (e: Event, postId: string, postStatus = PostStatus.PUBLISHED) => {
+		e.preventDefault();
+		const response = await httpPost<BaseResponseTypeDTO<any>, any>(
+			`${API_BASE_URL}/post/publish-post`,
+			{ postId, postStatus },
+			{ Authorization: `Bearer ${jwtToken}` }
+		);
+		if (response.success) {
+			window.location.reload();
+		}
+	};
+
+	const deleteArticle = async (e: Event, postId: string) => {
+		e.preventDefault();
+		const response = await httpDelete<BaseResponseTypeDTO<any>>(`${API_BASE_URL}/post/${postId}`, {
+			Authorization: `Bearer ${jwtToken}`
+		});
+		if (response.success) {
+			window.location.reload();
+		}
+	};
 </script>
 
 <Row class="pt-50">
@@ -71,7 +119,7 @@
 								<td>{findTags(post)}</td>
 								{#if post.series}
 									<td>
-										<a href="/dashboard/series/edit/${post.series.id}">
+										<a href="/dashboard/series/edit/{post.series.id}">
 											{post.series.name}
 										</a>
 									</td>
@@ -87,7 +135,30 @@
 										<DropdownMenu>
 											<DropdownItem href="/dashboard/posts/preview/{post.id}">Preview</DropdownItem>
 											<DropdownItem href="/dashboard/posts/edit/{post.id}">Edit</DropdownItem>
-											<DropdownItem>Publish</DropdownItem>
+											{#if post.postStatus === PostStatus.DRAFT}
+												<DropdownItem on:click={(e) => publishArticleLocally(e, post.id)}
+													>Publish (Locally only)
+												</DropdownItem>
+											{:else}
+												<DropdownItem
+													on:click={(e) => publishArticleLocally(e, post.id, PostStatus.PUBLISHED)}
+													>Unpublish (Locally only)
+												</DropdownItem>
+											{/if}
+
+											{#if post.postStatus === PostStatus.DRAFT}
+												<DropdownItem on:click={(e) => publishArticle(e, post.id)}
+													>Publish
+												</DropdownItem>
+											{:else}
+												<DropdownItem
+													on:click={(e) => publishArticle(e, post.id, PostStatus.PUBLISHED)}
+													>UnPublish
+												</DropdownItem>
+											{/if}
+											<DropdownItem on:click={(e) => deleteArticle(e, post.id)}
+												>Delete
+											</DropdownItem>
 										</DropdownMenu>
 									</Dropdown>
 								</td>

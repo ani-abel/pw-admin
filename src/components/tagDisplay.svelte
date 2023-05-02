@@ -1,17 +1,16 @@
 <script lang="ts">
-	import { createEventDispatcher } from 'svelte';
+	import { createEventDispatcher, onMount } from 'svelte';
 
+	export let preDisplayedTags: string[] = [];
 	export let label: string = 'Tags';
-	export let tags = [
-		{ id: '1', name: 'Audi' },
-		{ id: '2', name: 'Volvo' },
-		{ id: '3', name: 'Mercedes Benz' },
-		{ id: '4', name: 'Masarati' },
-		{ id: '5', name: 'Lamboghini' }
-	];
+	export let tags: any[];
 	export let selectedTags: string[] = [];
 
 	const dispatch = createEventDispatcher();
+
+	onMount(() => {
+		selectedTags = [...preDisplayedTags];
+	});
 
 	const selectTag = (event: any): void => {
 		const element = event.target;
@@ -35,9 +34,9 @@
 		<div
 			on:click={selectTag}
 			on:keypress={selectTag}
-			class:active={selectedTags.includes(tag.id)}
+			data-value={tag.name}
+			class:active={selectedTags.includes(tag.name)}
 			class="cursor-pointer text-white item"
-			data-value={tag.id}
 		>
 			{tag.name}
 		</div>
@@ -50,6 +49,8 @@
 		grid-template-columns: repeat(auto-fill, 25%);
 		grid-template-rows: repeat(auto-fill, 50%);
 		border: 1px solid #0e0e10;
+		height: 250px;
+		overflow-y: scroll;
 	}
 
 	.item {

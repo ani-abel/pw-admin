@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { onMount } from 'svelte';
 	import {
 		Row,
 		Col,
@@ -15,38 +16,124 @@
 	} from 'sveltestrap';
 	import MarkdownEditor from '../../../../components/markdownEditor.svelte';
 	import TagDisplay from '../../../../components/tagDisplay.svelte';
-	import { convertFilesToBase64Strings } from '../../../../utils/function.util';
+	import {
+		convertFilesToBase64Strings,
+		extractAxiosError,
+		extractDataFromLocalStorage,
+		httpPost,
+		uploadFiles,
+		validateFormData
+	} from '../../../../utils/function.util';
+	import ToastNotification from '../../../../components/toastNotification.svelte';
+	import type {
+		BaseResponseTypeDTO,
+		FormDataType,
+		NotificationMetaType
+	} from '../../../../utils/type.util';
+	import { API_BASE_URL } from '../../../../utils/const.util';
 
-	let selectedTags = [];
-	let postBody;
-	let coverImage: File;
-	let imagePreviewInBase64Format: string;
+	export let data: any;
+	let selectedTags: string[] = [];
+	let allTags: any[] = [];
+	let allSeries: any[] = [];
+	let coverImage: File | null;
+	let imagePreviewInBase64Format: string | null;
 	let isPartOfSeries = false;
 	const toggleIsPartOfSeries = () => (isPartOfSeries = !isPartOfSeries);
+	let isFormValid = false;
+	let error: NotificationMetaType;
+	let success: NotificationMetaType;
+	const formData: FormDataType = {
+		title: { value: null, required: true },
+		body: { value: null, required: true },
+		selectedSeries: { value: null, required: false }
+	};
+
+	onMount(() => {
+		allTags = data.tags.data;
+		allSeries = data.series.data;
+	});
+
+	const resetForm = () => {
+		formData.title.value = null;
+		formData.selectedSeries.value = null;
+		formData.body.value = null;
+		imagePreviewInBase64Format = null;
+		isFormValid = false;
+		selectedTags = [];
+		coverImage = null;
+	};
 
 	const handleMarkdownContent = (message: CustomEvent) => {
-		console.log({ message: message.detail });
-		postBody = message.detail;
+		formData.body.value = message.detail;
+		isFormValid = validateFormData(formData);
 	};
 
 	const handleTagSelection = (message: CustomEvent) => {
-		console.log({ tags: message.detail });
 		selectedTags = message.detail;
 	};
 
-	const handleSubmit = async (event: any) => {
+	const handleSubmit = async (event: Event) => {
 		event.preventDefault();
-		console.log({ message: 'submitted' });
+		try {
+			const payload: any = {
+				title: formData.title.value,
+				body: formData.body.value
+			};
+			if (coverImage) {
+				const {
+					data: [coverImageLink]
+				} = await uploadFiles([coverImage]);
+				payload.coverImage = coverImageLink;
+			}
+			if (formData.selectedSeries.value) {
+				payload.seriesId = formData.selectedSeries.value;
+			}
+			if (selectedTags?.length > 0) {
+				payload.tags = selectedTags;
+			}
+			const token = extractDataFromLocalStorage('token');
+			const response = await httpPost<BaseResponseTypeDTO<any>, any>(
+				`${API_BASE_URL}/post`,
+				payload,
+				{ Authorization: `Bearer ${token}` }
+			);
+			if (response.success) {
+				resetForm();
+				success = {
+					color: 'success',
+					header: 'Info',
+					message: response.message
+				};
+			}
+		} catch (ex) {
+			const axiosError = extractAxiosError(ex, 'danger', 'Error Occurred');
+			if (axiosError) {
+				error = axiosError;
+			}
+			throw ex;
+		}
 	};
 
-	const uploadFiles = async (event: any) => {
+	const uploadImage = async (event: any) => {
 		const [firstUrl] = await convertFilesToBase64Strings(event);
 		imagePreviewInBase64Format = firstUrl;
-		const file = event.target.files[0];
-		console.log({ file });
+		coverImage = event.target.files[0];
 	};
 </script>
 
+{#if success && success.message !== ''}
+	<ToastNotification
+		color={success.color}
+		message={success.message}
+		header={success.header}
+		on:closeToast={() => {
+			success.message = '';
+			success.color = '';
+			success.header = '';
+		}}
+	/>
+{/if}
 <Row class="pt-50">
 	<Col xs="12" sm="12" md={{ offset: 2, size: 8 }}>
 		<Card class="bg-black">
@@ -58,10 +145,10 @@
 					<FormGroup class="text-white">
 						<Label for="cover-image">Select cover image</Label>
 						<Input
-							on:change={uploadFiles}
-							bind:value={coverImage}
+							on:change={uploadImage}
 							type="file"
 							name="file"
+							accept="image/*"
 							id="cover-image"
 						/>
 					</FormGroup>
@@ -79,7 +166,13 @@
 					{/if}
 
 					<FormGroup class="text-white" floating label="Title">
-						<Input class="bg-black text-white" type="email" placeholder="Enter your email" />
+						<Input
+							bind:value={formData.title.value}
+							on:keydown={() => (isFormValid = validateFormData(formData))}
+							class="bg-black text-white"
+							type="text"
+							placeholder="Enter article title"
+						/>
 					</FormGroup>
 					<p
 						on:keypress={toggleIsPartOfSeries}
@@ -91,22 +184,28 @@
 					{#if isPartOfSeries}
 						<FormGroup class="text-white">
 							<Label for="exampleSelect">Series</Label>
-							<Input type="select" name="select" id="exampleSelect">
+							<Input
+								bind:value={formData.selectedSeries.value}
+								on:change={() => (isFormValid = validateFormData(formData))}
+								type="select"
+								name="select"
+								id="exampleSelect"
+							>
 								<option selected>Select series</option>
-								<option>Typescript</option>
-								<option>How to break into tech</option>
+								{#each allSeries as item}
+									<option value={item.id}>{item.name}</option>
+								{/each}
 							</Input>
 						</FormGroup>
 					{/if}
-
 					<FormGroup class="text-white">
 						<MarkdownEditor on:markdownContent={handleMarkdownContent} />
 					</FormGroup>
 					<div class="pt-20 pb-20">
-						<TagDisplay label="Tags" on:selectTags={handleTagSelection} />
+						<TagDisplay tags={allTags} label="Tags" on:selectTags={handleTagSelection} />
 					</div>
 					<FormGroup>
-						<Button block color="info">Save</Button>
+						<Button disabled={!isFormValid} block color="info">Save</Button>
 					</FormGroup>
 				</Form>
 			</CardBody>
