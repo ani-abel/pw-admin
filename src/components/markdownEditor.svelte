@@ -9,8 +9,7 @@
 	import math from '@bytemd/plugin-math-ssr';
 	import pluginBreaks from '@bytemd/plugin-breaks';
 	import 'bytemd/dist/index.css';
-	import { uploadFiles } from '../utils/function.util';
-	import type { MarkdownFileUploaderType } from '../utils/type.util';
+	import { type MarkdownFileUploaderType, uploadFiles } from '../utils';
 
 	const uploadImages = async (files: File[]): Promise<MarkdownFileUploaderType[]> => {
 		const { data: links } = await uploadFiles(files);

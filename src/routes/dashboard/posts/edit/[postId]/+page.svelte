@@ -25,13 +25,13 @@
 		uploadFiles,
 		validateFormData,
 		validateURL
-	} from '../../../../../utils/function.util';
+	} from '../../../../../utils';
 	import type {
 		BaseResponseTypeDTO,
 		FormDataType,
 		NotificationMetaType
-	} from '../../../../../utils/type.util';
-	import { API_BASE_URL } from '../../../../../utils/const.util';
+	} from '../../../../../utils';
+	import { API_BASE_URL } from '../../../../../utils';
 
 	export let data: any;
 	let isFormValid = false;

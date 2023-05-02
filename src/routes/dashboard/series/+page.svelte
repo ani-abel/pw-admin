@@ -14,9 +14,14 @@
 		DropdownToggle
 	} from 'sveltestrap';
 	import PaginationFullControl from '../../../components/paginationFullControl.svelte';
-	import { fillArray, formatDate, httpDelete, httpGet } from '../../../utils/function.util';
-	import { API_BASE_URL } from '../../../utils/const.util';
-	import type { BaseResponseTypeDTO } from '../../../utils/type.util';
+	import {
+		type BaseResponseTypeDTO,
+		API_BASE_URL,
+		fillArray,
+		formatDate,
+		httpDelete,
+		httpGet
+	} from '../../../utils';
 
 	export let data: any;
 	let series: any[] = [];

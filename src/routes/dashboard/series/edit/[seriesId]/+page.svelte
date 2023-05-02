@@ -1,17 +1,15 @@
 <script lang="ts">
 	import { API_BASE_URL } from '../../../../../utils/const.util';
 	import {
+		type BaseResponseTypeDTO,
+		type FormDataType,
+		type NotificationMetaType,
+		type Series,
 		extractAxiosError,
 		extractDataFromLocalStorage,
 		httpPatch
-	} from '../../../../../utils/function.util';
+	} from '../../../../../utils';
 	import ToastNotification from '../../../../../components/toastNotification.svelte';
-	import type {
-		BaseResponseTypeDTO,
-		FormDataType,
-		NotificationMetaType,
-		Series
-	} from '../../../../../utils/type.util';
 	import { onMount } from 'svelte';
 	import {
 		Row,

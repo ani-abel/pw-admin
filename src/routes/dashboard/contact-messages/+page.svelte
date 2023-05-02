@@ -16,9 +16,9 @@
 		Dropdown,
 		DropdownToggle
 	} from 'sveltestrap';
-	import { fillArray, formatDate, httpGet, httpPatch } from '../../../utils/function.util';
-	import { API_BASE_URL } from '../../../utils/const.util';
-	import type { BaseResponseTypeDTO } from '../../../utils/type.util';
+	import { fillArray, formatDate, httpGet, httpPatch } from '../../../utils';
+	import { API_BASE_URL } from '../../../utils';
+	import type { BaseResponseTypeDTO } from '../../../utils';
 
 	export let data;
 	let messages: any[] = [];

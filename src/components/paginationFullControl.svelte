@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { CardFooter, PaginationItem, Pagination, PaginationLink } from 'sveltestrap';
-	import type { NavigateFunction, PaginationResponseType } from '../utils/type.util';
-	import { fillArray } from '../utils/function.util';
+	import type { NavigateFunction, PaginationResponseType } from '../utils';
+	import { fillArray } from '../utils';
 
 	export let selectedPage: number;
 	export let navigate: NavigateFunction;

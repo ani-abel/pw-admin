@@ -13,22 +13,20 @@
 		CardHeader
 	} from 'sveltestrap';
 	import {
+		type BaseResponseTypeDTO,
+		type FormDataType,
+		type NotificationMetaType,
 		convertFilesToBase64Strings,
 		extractAxiosError,
 		extractDataFromLocalStorage,
 		httpPatch,
 		uploadFiles,
-		validateFormData
-	} from '../../../../../utils/function.util';
+		validateFormData,
+		API_BASE_URL
+	} from '../../../../../utils';
 	import VideoPreview from '../../../../../components/videoPreview.svelte';
 	import MultipleImagePreview from '../../../../../components/multipleImagePreview.svelte';
 	import ToastNotification from '../../../../../components/toastNotification.svelte';
-	import type {
-		BaseResponseTypeDTO,
-		FormDataType,
-		NotificationMetaType
-	} from '../../../../../utils/type.util';
-	import { API_BASE_URL } from '../../../../../utils/const.util';
 
 	export let data: any;
 	let error: NotificationMetaType;

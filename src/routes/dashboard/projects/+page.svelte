@@ -1,15 +1,15 @@
 <script lang="ts">
 	import PaginationFullControl from '../../../components/paginationFullControl.svelte';
-	import type { BaseResponseTypeDTO } from '../../../utils/type.util';
-	import { API_BASE_URL } from '../../../utils/const.util';
 	import {
+		type BaseResponseTypeDTO,
 		extractDataFromLocalStorage,
 		fillArray,
 		formatDate,
 		httpDelete,
 		httpGet,
-		httpPatch
-	} from '../../../utils/function.util';
+		httpPatch,
+		API_BASE_URL
+	} from '../../../utils';
 	import { onMount } from 'svelte';
 	import {
 		Table,

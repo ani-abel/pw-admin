@@ -11,16 +11,14 @@
 		CardHeader
 	} from 'sveltestrap';
 	import {
+		type NotificationMetaType,
+		type FormDataType,
+		type SeriesItemResponseDTO,
 		extractAxiosError,
 		extractDataFromLocalStorage,
 		httpPost,
 		validateFormData
-	} from '../../../../utils/function.util';
-	import type {
-		NotificationMetaType,
-		FormDataType,
-		SeriesItemResponseDTO
-	} from '../../../../utils/type.util';
+	} from '../../../../utils';
 	import ToastNotification from '../../../../components/toastNotification.svelte';
 	import { API_BASE_URL } from '../../../../utils/const.util';
 

@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { Figure } from 'sveltestrap';
 
 	export let url: string;
 	export let fileName: string;
