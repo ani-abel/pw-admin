@@ -4,7 +4,7 @@
 	import gfm from '@bytemd/plugin-gfm';
 	import highlight from '@bytemd/plugin-highlight-ssr';
 	import mediumZoom from '@bytemd/plugin-medium-zoom';
-	import pluginFile from 'bytemd-plugin-file-upload';
+	import pluginFileUpload from 'bytemd-plugin-file-upload';
 	import pluginFileLocales from 'bytemd-plugin-file-upload/locales/zh_Hans.json';
 	import math from '@bytemd/plugin-math-ssr';
 	import pluginBreaks from '@bytemd/plugin-breaks';
@@ -34,11 +34,9 @@
 		mediumZoom(),
 		math(),
 		pluginBreaks(),
-		pluginFile({ locale: pluginFileLocales, uploadFile: uploadImages })
+		pluginFileUpload({ locale: pluginFileLocales, uploadFile: uploadImages })
 	];
 </script>
-
-<div id="editor" />
 
 <Editor
 	placeholder="Write your article 🖍"
