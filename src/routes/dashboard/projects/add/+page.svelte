@@ -38,6 +38,8 @@
 
 	const formData: FormDataType = {
 		name: { value: null, required: true },
+		githubUrl: { value: null, required: false },
+		appUrl: { value: null, required: true },
 		description: { value: null, required: true }
 	};
 
@@ -54,6 +56,8 @@
 
 	const resetForm = () => {
 		formData.name.value = null;
+		formData.appUrl.value = null;
+		formData.githubUrl.value = null;
 		formData.description.value = null;
 		selectedFiles = [];
 		imagePreviewsInBase64Format = [];
@@ -67,6 +71,8 @@
 		try {
 			const payload: any = {
 				title: formData.name.value,
+				appUrl: formData.appUrl.value,
+				githubUrl: formData.githubUrl.value,
 				description: formData.description.value
 			};
 			if (selectedVideo) {
@@ -160,7 +166,27 @@
 							bind:value={formData.name.value}
 							class="bg-black text-white"
 							type="text"
-							placeholder="Enter your email"
+							placeholder="Enter App Name"
+						/>
+					</FormGroup>
+
+					<FormGroup class="text-white" floating label="App Url">
+						<Input
+							on:input={() => (isFormValid = validateFormData(formData))}
+							bind:value={formData.appUrl.value}
+							class="bg-black text-white"
+							type="url"
+							placeholder="Enter app's url"
+						/>
+					</FormGroup>
+
+					<FormGroup class="text-white" floating label="Github Repo Url">
+						<Input
+							on:input={() => (isFormValid = validateFormData(formData))}
+							bind:value={formData.githubUrl.value}
+							class="bg-black text-white"
+							type="url"
+							placeholder="Enter url to github Repo"
 						/>
 					</FormGroup>
 

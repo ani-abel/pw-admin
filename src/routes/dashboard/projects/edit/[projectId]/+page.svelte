@@ -42,12 +42,16 @@
 
 	const formData: FormDataType = {
 		name: { value: null, required: true },
+		githubUrl: { value: null, required: false },
+		appUrl: { value: null, required: true },
 		description: { value: null, required: true }
 	};
 
 	onMount(() => {
 		if (data.success) {
 			project = data.data;
+			formData.appUrl.value = project.appUrl;
+			formData.githubUrl.value = project.githubUrl;
 			formData.name.value = project.title;
 			formData.description.value = project.description;
 			isFormValid = validateFormData(formData);
@@ -62,6 +66,8 @@
 			const payload: any = {
 				projectId: project.id,
 				title: formData.name.value,
+				appUrl: formData.appUrl.value,
+				githubUrl: formData.githubUrl.value,
 				description: formData.description.value
 			};
 			const allSampleImages = [...existingPhotos];
@@ -171,7 +177,27 @@
 							bind:value={formData.name.value}
 							class="bg-black text-white"
 							type="text"
-							placeholder="Enter your email"
+							placeholder="Enter App Name"
+						/>
+					</FormGroup>
+
+					<FormGroup class="text-white" floating label="App Url">
+						<Input
+							on:input={() => (isFormValid = validateFormData(formData))}
+							bind:value={formData.appUrl.value}
+							class="bg-black text-white"
+							type="url"
+							placeholder="Enter app's url"
+						/>
+					</FormGroup>
+
+					<FormGroup class="text-white" floating label="Github Repo Url">
+						<Input
+							on:input={() => (isFormValid = validateFormData(formData))}
+							bind:value={formData.githubUrl.value}
+							class="bg-black text-white"
+							type="url"
+							placeholder="Enter url to github Repo"
 						/>
 					</FormGroup>
 
