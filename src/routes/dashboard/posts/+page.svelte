@@ -1,7 +1,7 @@
 <script lang="ts">
 	import {
 		type BaseResponseTypeDTO,
-		type formatDate,
+		formatDate,
 		extractDataFromLocalStorage,
 		fillArray,
 		httpDelete,

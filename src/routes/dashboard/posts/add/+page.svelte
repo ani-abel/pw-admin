@@ -46,6 +46,7 @@
 	const formData: FormDataType = {
 		title: { value: null, required: true },
 		body: { value: null, required: true },
+		keyPhrases: { value: null, required: true },
 		selectedSeries: { value: null, required: false }
 	};
 
@@ -58,6 +59,7 @@
 		formData.title.value = null;
 		formData.selectedSeries.value = null;
 		formData.body.value = null;
+		formData.keyPhrases.value = null;
 		imagePreviewInBase64Format = null;
 		isFormValid = false;
 		selectedTags = [];
@@ -78,7 +80,8 @@
 		try {
 			const payload: any = {
 				title: formData.title.value,
-				body: formData.body.value
+				body: formData.body.value,
+				keyPhrases: formData.keyPhrases.value
 			};
 			if (coverImage) {
 				const {
@@ -172,6 +175,15 @@
 							class="bg-black text-white"
 							type="text"
 							placeholder="Enter article title"
+						/>
+					</FormGroup>
+					<FormGroup class="text-white" floating label="Key Phrases [SEO]">
+						<Input
+							bind:value={formData.keyPhrases.value}
+							on:keydown={() => (isFormValid = validateFormData(formData))}
+							class="bg-black text-white"
+							type="text"
+							placeholder="Enter key phrases"
 						/>
 					</FormGroup>
 					<p

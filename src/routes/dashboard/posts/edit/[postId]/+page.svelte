@@ -48,6 +48,7 @@
 	const formData: FormDataType = {
 		title: { value: null, required: true },
 		body: { value: null, required: true },
+		keyPhrases: { value: null, required: true },
 		selectedSeries: { value: null, required: false }
 	};
 
@@ -60,6 +61,7 @@
 			imagePreviewInBase64Format = post.coverImage;
 			formData.body.value = post.body;
 			formData.title.value = post.title;
+			formData.keyPhrases.value = post.keyPhrases;
 			formData.selectedSeries.value = post.seriesId;
 		}
 	});
@@ -79,7 +81,8 @@
 			const payload: any = {
 				postId: post.id,
 				title: formData.title.value,
-				body: formData.body.value
+				body: formData.body.value,
+				keyPhrases: formData.keyPhrases.value
 			};
 			if (coverImage && !validateURL(imagePreviewInBase64Format)) {
 				const {
@@ -173,6 +176,16 @@
 							class="bg-black text-white"
 							type="text"
 							placeholder="Enter article title"
+						/>
+					</FormGroup>
+
+					<FormGroup class="text-white" floating label="Key Phrases [SEO]">
+						<Input
+							bind:value={formData.keyPhrases.value}
+							on:keydown={() => (isFormValid = validateFormData(formData))}
+							class="bg-black text-white"
+							type="text"
+							placeholder="Enter key phrases"
 						/>
 					</FormGroup>
 					<p
